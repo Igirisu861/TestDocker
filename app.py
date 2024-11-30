@@ -11,6 +11,10 @@ def saludo():
 def f1():
     return jsonify({'mensaje': 'para acabar primero, primero tienes que acabar'}), 200
 
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify({'mensaje': 'test exitoso'}), 200
+
 # Ejecución de la app
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

@@ -1,0 +1,38 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Login to Azure Container Registry
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: flasktestordinarioinfra.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    # Build and push the Docker image
+    - name: Build and push Docker image
+      run: |
+        docker build -t flasktestordinarioinfra.azurecr.io/flask-app:latest .
+        docker push flasktestordinarioinfra.azurecr.io/flask-app:latest
+
+    # Deploy to Azure Web App for Containers
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: flaskTestOrdinarioInfra
+        images: flasktestordinarioinfra.azurecr.io/flask-app:latest
+        slot-name: production
+
+        

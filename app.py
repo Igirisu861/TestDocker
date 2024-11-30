@@ -8,7 +8,7 @@ def saludo():
     return jsonify({'mensaje': 'Hola Mundo'}), 200
 
 @app.route('/f1', methods=['GET'])
-def saludo():
+def f1():
     return jsonify({'mensaje': 'para acabar primero, primero tienes que acabar'}), 200
 
 # Ejecución de la app
